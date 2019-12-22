@@ -22,8 +22,11 @@ This system uses two ultrasonic sensors to determine presence of a car trying to
   
 ### Software Requirements
 * Arduino IDE (get it [here](https://www.arduino.cc/en/main/software)) or VS Code with Arduino Extension. Really, anything that will let you compile and run code for an Arduino.
+* 
 * *More information TBD*
 
+### TODOs:
+- Add a temperature sensor for temperature compensation in distance sensing.
 
 ## Usage
 
@@ -32,3 +35,4 @@ This system uses two ultrasonic sensors to determine presence of a car trying to
 * [Allen Nikka](https://github.com/allen-n)
 
 ## Ackowledgements
+* Martin Šošić ([Martinsos](https://github.com/Martinsos)) - For providing the [HC-SR04 Library](https://github.com/Martinsos/arduino-lib-hc-**sr04**) used in this project. 
