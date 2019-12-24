@@ -1,3 +1,0 @@
-[submodule "exit-detector-app/arduino-lib-hc-sr04"]
-	path = exit-detector-app/arduino-lib-hc-sr04
-	url = git@github.com:allen-n/arduino-lib-hc-sr04.git
