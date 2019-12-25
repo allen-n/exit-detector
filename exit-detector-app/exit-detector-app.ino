@@ -1,5 +1,6 @@
 #include <HCSR04.h>
 #include "inc/RingBuffer.h"
+#include "inc/DistDebouncer.h"
 
 // Distance Sensor 1
 const int triggerPin1 = 12;
@@ -11,8 +12,14 @@ const int triggerPin2 = 11;
 const int echoPin2 = 10;
 UltraSonicDistanceSensor dSensor2(triggerPin2, echoPin2);
 
+// Ring buffers
 RingBuffer buff1(10);
 RingBuffer buff2(10);
+
+// Target Distance Debouncing
+const double targetDist = 5.2;
+const double threshold = 0.30;
+DistDebouncer db(targetDist, threshold, 1000);
 
 void setup()
 {
@@ -20,20 +27,22 @@ void setup()
   Serial.println("Applicationg Running!");
 }
 
-const long dt = 100;
-long t = 0;
+
+const unsigned long dt = 100;
+unsigned long prevMillis = 0;
 
 void loop()
 {
   // put your main code here, to run repeatedly :
-  if (t < millis())
+  unsigned long currentMillis = millis();
+  if (currentMillis - prevMillis > dt)
   {
-    t += dt;
+    prevMillis = currentMillis;
     double dist1 = 0.0328084 * dSensor1.measureDistanceCm(); // Convert to feet
     buff1.addValue(dist1);
     double dist2 = 0.0328084 * dSensor2.measureDistanceCm(); // Convert to feet
     buff2.addValue(dist2);
-
-    Serial.println("D1: " + String(buff1.getMean()) + ", D2: " + String(buff2.getMean()));
+    bool isTarget = db.isAtTarget(buff1.getMean());
+    Serial.println("D1: " + String(buff1.getMean()) + ", ~=3: " + String(isTarget) + ", D2: " + String(buff2.getMean()));
   }
 }
